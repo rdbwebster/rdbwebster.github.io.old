@@ -1,27 +1,31 @@
-        <h3> Installing Ansible with the vcloud air module on a Mac </h3>
-        <p> <br>
+<p> 
           Ansible is an excellent automation tool that supports
-          provisioning of Virtual Machines and <br>
-          Gateway services on vCloud Air.&nbsp; <br>
-        </p>
-        <p>This tutorial explains how to install Ansible and the vCloud
+          provisioning of Virtual Machines and 
+          Gateway services on vCloud Air.
+</p>
+
+<p>This tutorial explains how to install Ansible and the vCloud
           Air modules onto a Mac workstation.</p>
-        <p> We'll install Ansible in a python virtual environment so
-          that it's isolated from other python applications.&nbsp; <br>
+
+<p> We'll install Ansible in a python virtual environment so
+          that it's isolated from other python applications. 
           This is a best practice that allows multiple versions of
-          Python and application modules to be <br>
-          installed at the same time.<br>
+          Python and application modules to be 
+          installed at the same time.
         </p>
-        <p>If you are not familiar with Python Virtual Environments,
-          read a great introduction <a
-href="http://www.dabapps.com/blog/introduction-to-pip-and-virtualenv-python/">here</a><br>
+
+<p>If you are not familiar with Python Virtual Environments, read this  
+        <a href="http://www.dabapps.com/blog/introduction-to-pip-and-virtualenv-python/">great introduction</a>
+         </p> 
+
+<p><br>
+          Let's get started<br>
         </p>
-        <p><br>
-          Let's get started....<br>
-        </p>
-        <p><br>
+
+<p><br>
           <b>1) Install Mac Command Line Tools</b><br>
         </p>
+
         <pre class="pre-scrollable"><br> // check to see if Mac command line tools are installed on your mac<br> $ xcode-select -v <br> xcode-select version 2333.<br>&nbsp;<br> // If you don't see an existing version like above<br> // Install the tools <br> $<code> xcode-select --install    </code><br><br><br>
 
 </pre>
@@ -68,12 +72,12 @@ href="https://github.com/ansible/ansible-modules-extras/tree/devel/cloud/vmware"
         <br>
         <pre class="pre-scrollable">// Note: We are placing these in the virtualenv path<br><br>$ mkdir penv/lib/python2.7/site-packages/ansible/modules/extras/cloud/vmware<br><br>$ wget <meta http-equiv="content-type" content="text/html; charset=UTF-8"><code>-P </code>penv/lib/python2.7/site-packages/ansible/modules/extras/cloud/vmware https://raw.githubusercontent.com/ansible/ansible-modules-extras/devel/cloud/vmware/vca_vapp.py<br><br>$ wget <code>-P </code>penv/lib/python2.7/site-packages/ansible/modules/extras/cloud/vmware https://raw.githubusercontent.com/ansible/ansible-modules-extras/devel/cloud/vmware/vca_fw.py<br><br>$ wget <code>-P </code>penv/lib/python2.7/site-packages/ansible/modules/extras/cloud/vmware https://raw.githubusercontent.com/ansible/ansible-modules-extras/devel/cloud/vmware/vca_nat.py<br><br>// confirm at least one of the vCloud Air modules can be found.<br>// Documentation for the command should listed<br>$ ansible-doc  vca_fw  <br>  VCA_FW<br>  Adds or removes firewall rules from a gateway in a vca environment<br>  ...<br>&nbsp;</pre>
         <br>
-        <b>7) Create a new playbook to create an Ubuntu VM on vCloud Air<br>
+        <b>7) Create a new playbook to create an Ubuntu VM on vCloud Air<br></b>
           <br>
           <pre class="pre-scrollable">// use nano to create a test file named my_vapp.yml, add the following lines. <br>// update the values of service_id, vdc_name and org to match your vcloud Air environment<br>// then save the file<br>$ nano my_vapp.yml<br><br>- hosts: localhost<br>  connection: local<br>  tasks:<br>   - vca_vapp:<br>       admin_password: 'Password!123'<br>       operation: poweron<br>       state: present<br>       service_id: 'M933009684-4424'<br>       vdc_name: 'M933009684-4424'<br>       org: 'M933009684-4424'<br>       service_type: 'vchs'<br>       vm_name: scooby<br>       vm_cpus: 2<br>       catalog_name: "Public Catalog"<br>       template_name: "Ubuntu Server 12.04 LTS (amd64 20150127)"<br>       vm_memory: 2048<br>       network_name: "M933009684-4424-default-routed"<br><br>     <br><br></pre>
           <b><br>
             <br>
-            8) Set your vcloud air credentials and run the test playbook<br>
+            8) Set your vcloud air credentials and run the test playbook<br></b>
             <br>
             <pre class="pre-scrollable">// set your vCloud Air credentials as environment variables <br><br>$ export VCA_USER='myusername'<br>$ export VCA_PASS='mypassword'<br><br>// Run the playbook<br><br>$ ansible-playbook my_vapp.yml<br><br></pre>
             <br>
@@ -87,11 +91,12 @@ href="https://github.com/ansible/ansible-modules-extras/tree/devel/cloud/vmware"
             <br>
             <br>
             <br>
-            <b><u>Troubleshooting</u></b><b><u>:</u></b><br>
-            <br>
 <p>
+            <b><u>Troubleshooting</u></b>
+            <br>
+
             When the tutorial is complete your ansible_vca folder should
-            look like the following<br>
+            look like the following
             <br>
             $ ls ansible_vca/<br>
             ansible.cfg&nbsp;&nbsp;&nbsp; hosts&nbsp;&nbsp;&nbsp;&nbsp;
@@ -133,16 +138,19 @@ href="https://github.com/ansible/ansible-modules-extras/tree/devel/cloud/vmware"
             <br>
             <hr size="2" width="100%"><b><br>
               <br>
-              Issue 1:<br>
-              Runnning Ansible-playbook <br>
+            </p>
+
+  <h4>Issue 1:</h4>
+              <p>
+              Running Ansible-playbook <br>
               ImportError: No module named xmltodict<br>
-            </b><br>
+            <br>
             &nbsp;&nbsp; Ansible cannot find the xmltodict module.<br>
             &nbsp;&nbsp; Either it's not installed or ansible is not
             using the python interpreter in the virtual environment.<br>
             &nbsp;&nbsp; The python version being used is looking
             outside the virtual environment for the xmltodict module.<br>
-            <b>&nbsp;&nbsp; <br>
+            &nbsp;&nbsp; <br>
               &nbsp;&nbsp; Solution:<br>
               &nbsp;&nbsp; </b>Check if the module is installed, it
             should be found in the virtual environment python_env<b><br>
@@ -155,29 +163,22 @@ href="https://github.com/ansible/ansible-modules-extras/tree/devel/cloud/vmware"
             <br>
             &nbsp;&nbsp;&nbsp; If the module is not found, install it<br>
             &nbsp; &nbsp; $ pip install xmltodict<b><br>
-              &nbsp;&nbsp;&nbsp; </b><b><br>
+              &nbsp;&nbsp;&nbsp; </b><br>
               &nbsp;&nbsp; Solution:<br>
               &nbsp;</b>&nbsp; Check that Ansible is using the correct
             python interpreter.<br>
             &nbsp;&nbsp; This is set in the hosts file and can
             optionally be set as an environment variable in the shell<br>
             &nbsp;&nbsp; $ export
-            ANSIBLE_PYTHON_INTERPRETER='/Users/bwebster/python/ansible_<b><br>
+            ANSIBLE_PYTHON_INTERPRETER='/Users/bwebster/python/ansible_<br>
               <br>
             </b>
-            <hr size="2" width="100%"><b><br>
-              Issue 2<br>
+            <hr size="2" width="100%"><br>
+          </p>
+            <h4>  Issue 2:</h4>
+            <p>
               Running ansible-playbook<br>
               msg: Failed to login to org, Please check the orgname</b><br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
-
-
-
-
-
             failed: [localhost] =&gt; {"error": "&lt;Error
             minorErrorCode=\"\" majorErrorCode=\"401\" <br>
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -194,6 +195,7 @@ href="https://github.com/ansible/ansible-modules-extras/tree/devel/cloud/vmware"
             <hr size="2" width="100%"><br>
             <br>
             <br>
+          </p>
             <b>Issue 3<br>
               Running ansble-playbook <br>
               A true SSLContext object is not available...
@@ -214,11 +216,11 @@ href="https://github.com/ansible/ansible-modules-extras/tree/devel/cloud/vmware"
             <br>
             <hr size="2" width="100%"><br>
             <br>
-            <b>Issue 4<br>
+            <h4>Issue 4</h4>
               Running ansible-playbook<br>
-              &nbsp; =&gt; module is missing interpreter line</b><b><br>
+               module is missing interpreter line<br>
               <br>
-            </b><b>&nbsp;&nbsp; If your Library path entry in the
+            </b>&nbsp;&nbsp; If your Library path entry in the
               Ansible.cfg file points to the wrong place, then Ansible
               may find another file <br>
               &nbsp;&nbsp; it mistakes for a module.&nbsp; This other
@@ -229,24 +231,20 @@ href="https://github.com/ansible/ansible-modules-extras/tree/devel/cloud/vmware"
             &nbsp;&nbsp; The correct path is <b>./penv/lib/python2.7/site-packages/ansible</b><br>
             <br>
             <br>
-            <br>
-            <b>Issue 5<br>
+            <hr>
+            <h4>Issue 5</h4>
               Running ansible-playbook<br>
-              GATHERING FACTS ****** fatal: [localhost] </b><b><br>
-              &nbsp;&nbsp; <br>
+              GATHERING FACTS  fatal: [localhost] <br>
               <br>
-              &nbsp;&nbsp; The localhost entry in the playbook is
+              <br>
+              The localhost entry in the playbook is
               telling Ansible to get the facts from your local laptop.<br>
-              &nbsp;&nbsp; Since your playbook with the vCloud Air
+               Since your playbook with the vCloud Air
               module targets a cloud host and not your local laptop<br>
-              &nbsp;&nbsp; There are two solutions<br>
+               There are two solutions<br>
               <br>
-            </b><b>&nbsp;&nbsp; Solution 1:&nbsp; add a gather_facts
+            </b><b>&nbsp;&nbsp; Solution 1:&nbsp; </b>add a gather_facts
               directive to your playbook<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
               This assumes you intend to run playbooks only against
               cloud targets and not your localhost.<br>
               <br>
@@ -255,120 +253,42 @@ href="https://github.com/ansible/ansible-modules-extras/tree/devel/cloud/vmware"
               &nbsp;&nbsp;&nbsp; gather_facts: False<br>
               &nbsp;&nbsp;&nbsp; tasks:<br>
               <br>
-              &nbsp;&nbsp; Solution 2:&nbsp; Setup your localhost as a
+              &nbsp;&nbsp; <b>Solution 2:</b> &nbsp;Setup your localhost as a
               valid target for playbooks.<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
               First you will need to enable remote login on your Mac:<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
               Under System Preferences, choose 'Sharing' and check the
               'Remote Login' checkbox.<br>
               <br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
               Next ensure you have id_rsa and id_rsa.pub files in your
               home directory&nbsp; ~/.ssh<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
               If you do not run ssh_keygen to create them.<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
               Next run this command to install the key for your current
               user<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
               <br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
               $ cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>
               <br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
               Add an entry to your inventory file for localhost to
               indicate the ssh user to use for the host.<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
               In a file named hosts add this line<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
               localhost ansible_connection=local
               ansible_ssh_user=bwebster<br>
               <br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
               Test the setup with this command to gather facts from your
               Mac (Assumes&nbsp; inventory is hosts)<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
               Sudo is necessary to access the
               /Users/bwebster/library/Saved Application State/
               directory.<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
-              &nbsp; $ sudo ansible -m setup localhost -i hosts<br>
+             $ sudo ansible -m setup localhost -i hosts<br>
               <br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
               This should product a JSON output listing the details of
               your mac.<br>
               <hr size="2" width="100%"><b><br>
-                Issue 6<br>
+                Issue 6<br></b>
                 Running ansible-playbook<br>
                 TASK: [vca_vapp ] *******failed: [localhost] =&gt;
                 {"catalogs":<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
-
-
-
-
-
-
-
                 msg: Error in Creating VM, Please check catalog or
                 template, <br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
-
-
-
-
-
-
-
                 Available catalogs and templates are as above<br>
                 <br>
                 <br>
@@ -389,23 +309,19 @@ href="https://github.com/ansible/ansible-modules-extras/tree/devel/cloud/vmware"
                 </b><br>
                 Solution:&nbsp; The register directive is incorrectly
                 indented.<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
                 It must be at the level of the task, not as a task
                 parameter, see below example<br>
                 <br>
                 &nbsp;- vca_vapp:<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; operation: poweron<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; admin_password:
+                operation: poweron<br>
+                 admin_password:
                 'Password!123'<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; state: present<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; service_id:
+                 state: present<br>
+              service_id:
                 'M933009684-4424'<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vdc_name:
+               vdc_name:
                 'M933009684-4424'<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; service_type:
+                 service_type:
                 'vchs'<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vm_name: scooby<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vm_cpus: 2<br>
@@ -420,9 +336,9 @@ href="https://github.com/ansible/ansible-modules-extras/tree/devel/cloud/vmware"
                 <br>
                 <br>
                 <br>
-                <b>Issue 8</b><br>
+                <h4>Issue 8</h4><br>
                 Running ansible-playbook<br>
-                <b>ERROR: multiple actions specified in task: 'vca_vapp'
+                ERROR: multiple actions specified in task: 'vca_vapp'
                   and 'register result'<br>
                   <br>
                   A correctly indented register: command (shown below)

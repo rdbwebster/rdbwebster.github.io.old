@@ -2,7 +2,97 @@
 layout: post
 title: "vCloud Air Hairpin NAT"
 tags: [cloud]
+date: 2015-06-12
 excerpt: Configuring the vCloud Air Gateway to enable a call from within to the gateway public ip.
 ---
 
-{% include vcloud-air-hairpin-nat.html %}
+<p>
+In most cases accessing a server on an internal network through the gateway is a simple matter of adding NAT rules to the Edge Gateway.
+For example these rules would allow an <strong>external</strong> server to access an internal server through the gateway public ip.
+
+DNAT   23.92.200.151 port 4242      &gt;&gt;  192.168.109.3  port 4242
+SNAT   192.168.109.0/24                 &gt;&gt;  23.92.200.151
+</p>
+
+<img src="/images/gateway2.png" width="410" height="338"> 
+
+<h4><span style="text-decoration: underline;">The Hairpin NAT Problem</span>:</h4>
+But a confusing issue can occur when an server on the inside network tries to reach itself or another inside server by addressing the public ip on the gateway.
+
+In the diagram above, 192.168.109.3 is a server on a vCloud Air Virtual Data Center
+internal network and 23.92.200.151 is a public ip on the Gateway of the VDC.
+
+Given the gateway rules above, let's test this scenario .
+
+<span style="text-decoration: underline;">Test</span>
+
+Start Netcat on the inside server and have it listen on 192.168.109.3 port 4242 for connections.
+
+$ nc -l 4242 &amp;
+
+// From the inside server, we can reach the same server using the inside address 192.1.68.109.3
+$ telnet 192.168.109.3 4242
+— Connected Accepted
+
+// From a server outside vCloud Air 50.4.227.75 we can reach through the gateway public ip to the inside server.
+$ telnet 23.92.200.151 4242
+— Connection Accepted
+
+// But, from the inside server 192.168.109.3 to public ip outside we don’t get routed back in
+$ telnet 23.92.200.151 4242
+— Connection Refused
+
+Whats Going on?
+Why are all connections to 23.92.200.151 4242 not being routed to 192.168.109.3 4242 ?
+<h3><span style="text-decoration: underline;">Solutions:</span></h3>
+<span style="text-decoration: underline;">Solve with a Local Host File Entry</span>
+
+The simplest solution is do the lookup using a hostname instead of an ip.
+Add an entry to the local server hosts file so the local address is used for inside destinations.
+
+For example
+
+In the /etc/hosts file add the line
+
+myserver 192.168.109.3
+
+When this entry exists on the local server, hostname resolution will find the local server address before any DNS resolution finds a the public ip of the gateway.
+
+But sometimes its not possible to know the local address of all servers on the internal network.
+This leads us to the second solution using the gateway.
+
+<span style="text-decoration: underline;">Solve with Gateway Configuration
+</span>
+
+In this solution we will add NAT rules to both the internal network and the Gateway external network.
+
+<span>
+<a href="/images/gateway1.png"><img src="http://www.websterx.com/bwb/wp-content/uploads/2015/06/gateway1.png" alt="gateway_sm" width="800" height="194"></a>
+</span>
+
+Add identical DNAT and SNAT rules  to both networks.
+<h4>Explanation:</h4>
+With the new rules,
+<ul>
+	<li>Calls from an outside server to the gateway public ip - 50.4.227.75   calling   23.92.200.151  4242</li>
+</ul>
+When the packet below arrives at the 192.168.109.0 network
+Rule #2 - Changes the destination address in the packet to 192.168.109.3 4242
+Rule #4 - Not applied change since source is not 192.168.109.x  Src packet stays the same.
+IP SRC:  50.4.227.75                       &gt;&gt;          IP SRC:  50.4.227.75
+IP DST:   23.92.200.151  4242                       IP DST:  <span style="color: #3366ff;">192.168.109.3</span>  4242
+<ul>
+	<li>Calls from the inside server to gateway public ip  - 192.168.109.3   calling   23.92.200.151</li>
+</ul>
+When the packet below enters the 23.92.200.0 network
+
+Rule #1 - Changes the Destination address in packet from 23.92.200.151 to 192.168.109.3
+The packet never leaves the network.
+
+Rule #3 - Changes the Source address from 192.168.109.3 to 23.92.200.151
+Two tricky things here,  the packet looks like it came from outside, so responses will be sent back to the outside address. But DNAT rule #1 will route responses back to the  192.168.109.3)
+
+IP SRC:  192.168.109.3                      &gt;&gt;      IP SRC:  <span style="color: #3366ff;">23.92.200.151</span>
+IP DST:   23.92.200.151  4242                      IP DST:  <span style="color: #3366ff;">192.168.109.3</span> 4242
+
+Additional DNAT rules will be required on both networks for all additional inside servers that will require inside access through the gateway public ip.
