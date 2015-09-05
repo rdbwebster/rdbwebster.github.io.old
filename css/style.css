@@ -1,19 +1,38 @@
+
+
+html { font-size: 62.5%; } /* font-size: 62.5% now means that 1.0 rem = 10px */
+
 body {
-    font-size: 12px;
+    font-size: 1.5rem;line-height: 2.0rem; 
     font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
     color:#564b47;  
     padding-left: 50px;
-    padding-right: 20%;
+    padding-right: 5%;
+}
+
+
+#headerBox {
+    height: 110px;
+    background: #7AA1CA;
+    margin-top: -20px;
+}
+
+#headerText {
+    margin-left: 20px;
 }
 
 
 body>header h1>a {
-    color:#564b47;
+    color:black;
     text-decoration: none;
+    margin-left: 20px;
 }
 
+
 body>header h4 {
+    color:black;
     margin-top: -10px;
+    margin-left: 20px;
 }
 
 h1,h2,h3,h4 {
@@ -44,9 +63,9 @@ code {
 
 pre {
     background-color: #E8E8E8;
-    margin-left: 30px;
+    margin-left: 10px;
     padding: 5px;
-    width: 80%;
+    width: 100%;
 }
 
 table {
@@ -65,20 +84,20 @@ main {
 
 	width: 75%;
 	min-width: 600px;
-	margin-left: 150px;
+	margin-left: 10px;
 	display: block;
 }
 
 nav {
-	float: left;
-	width: 150px;
-	min-width: 150px;
+	float: right;
+	width: 170px;
+	min-width: 170px;
 }
 
 nav a,
 nav a:visited,
 nav a:active {
-    color: blue;
+    color: #7AA1CA;
 }
 
 nav a:hover {
@@ -88,6 +107,8 @@ nav a:hover {
 nav li {
     margin-left: -25px;
     list-style: none;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2rem;
 }
 
 footer {
@@ -103,7 +124,7 @@ article h2>a,
 article h2>a:visited,
 article h2>a:active {
     text-decoration: none;
-    color: blue;
+    color: #7AA1CA;
 }
 
 article h2>a:hover {
@@ -149,3 +170,11 @@ section address {
 .more {
     margin-left: 80%;
 }
+
+
+.learn-more {
+    font-family: 'Oswald', sans-serif;
+    font-size: larger;
+
+}
+

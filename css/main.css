@@ -1,8 +1,12 @@
+html { font-size: 62.5%; } /* font-size: 62.5% now means that 1.0 rem = 10px */
+*{font-size: 1.5rem;line-height: 2.0rem; }
+
 body {
+    background: #fff; font-family: arial; }
     margin: 60px auto;
-    width: 70%;
+    width: 30%;
 }
-nav ul, footer ul {
+nav:me ul, footer:me ul {
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
     padding: 0px;
     list-style: none;
@@ -19,13 +23,14 @@ a {
 a:hover {
     text-decoration: underline;
 }
-h1 {
-    font-size: 3em;
-    font-family:'Helvetica', 'Arial', 'Sans-Serif';
+h1, h2, h3, h4, h5, h6 {
+    font-size: 2em;
+/*    font-family: 'Open Sans', sans-serif; */
+     font-family:'Helvetica', 'Arial', 'San-Serif'; 
 }
 p {
-    font-size: 1.5em;
-    line-height: 1.4em;
+    font-size: 1.0em;
+    line-height: 1.2em;
     color: #333;
 }
 footer {
@@ -41,3 +46,23 @@ ul.posts {
 ul.posts li {
     list-style: none;
 }
+
+ul.header ul {
+    background: #33f; 
+    color: #333;
+}
+
+.learn-more {
+    font-family: 'Oswald', sans-serif;
+    font-size: larger;
+   
+}
+
+/* spacing for row */
+.top-buffer { margin-top:30px; }
+
+a.big-link {
+    font-size: 18px;
+}
+
+

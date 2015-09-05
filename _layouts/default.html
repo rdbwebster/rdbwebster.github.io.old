@@ -10,6 +10,9 @@
         <meta name="author" content="{{site.author}}"/>
         <link rel="author" href="humans.txt"/>
         <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{site.baseurl}}/feed.xml" />
+    <link
+href="http://fonts.googleapis.com/css?family=Open+Sans:600italic,600%7CPT+Sans+Narrow%7COswald%7CPT+Sans"
+      rel="stylesheet" type="text/css">
 
         <link rel="stylesheet" href="{{site.baseurl}}/resources/fontello/css/fontello.css">
         <link rel="stylesheet" href="{{site.baseurl}}/resources/fontello/css/animation.css">
@@ -17,11 +20,12 @@
     </head>
 
     <body>
-        <header>
-            <h1><a href="{{site.baseurl}}/"> {{ site.name }}</a></h1>
-                <h4>{{ site.description }}</h4>
-            <hr />
-        </header>
+         <header id="headerBox">
+         <span id="headerText">
+             <h1><a href="{{site.baseurl}}/"> {{ site.name }} </a></h1>
+         </span>
+                 <h4>{{ site.description }}</h4>
+         </header>
 
         <nav>
 
@@ -43,7 +47,6 @@
         </main>
 
         <footer>
-            <hr />
             <p>&copy; <time>2015</time> {{ site.author }}</p>
         </footer>
 
