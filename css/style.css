@@ -1,16 +1,23 @@
 
 
-html { font-size: 62.5%; } /* font-size: 62.5% now means that 1.0 rem = 10px */
+/* html { font-size: 62.5%; } /* font-size: 62.5% now means that 1.0 rem = 10px */ 
+
 
 body {
-    font-size: 1.5rem;line-height: 2.0rem; 
+    /*font-size: 1.5rem;line-height: 2.0rem; */
+    font-size 16px;
     font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
     color:#564b47;  
     width:100%
-/*
-    padding-left: 50px;
-    padding-right: 5%;
-*/
+}
+
+
+.small {
+    font-size: 12px; /* 75% of the baseline */
+}
+
+.large {
+    font-size: 20px; /* 125% of the baseline */
 }
 
 
@@ -26,18 +33,20 @@ text-decoration: none;
 width:100%;
 }
 
+
 #header h1{
-   display:inline;
-   text-align: center;
-   margin-left: 80px;
+   text-align: left;
+   margin-left: 50px;
    /* http://www.sitepoint.com/web-foundations/collapsing-margins/ */
    position: relative; top: 20px; 
+   display:inline;
 }
 
+
 #header ul {
-   float: right;
    display:inline;
-   margin-top: 20px;
+   float: right;
+   position: relative; top: 15px; 
    margin-right: 30px;
 }
 
@@ -52,50 +61,26 @@ width:100%;
    color:white;
 }
 
-#header a:visited,
-#header a:active {
-}
-
 #header ul li a:hover{
    text-decoration:underline;
 }
 
-/*
-#headerBox {
-    height: 110px;
-    background: #7AA1CA;
-    margin-top: -20px;
-}
-
-#headerText {
-    margin-left: 20px;
+#header a:visited,
+#header a:active {
 }
 
 
-body>header h1>a {
-    color:black;
-    text-decoration: none;
-    margin-left: 20px;
-}
-
-
-body>header h4 {
-    color:black;
-    margin-top: -10px;
-    margin-left: 20px;
-}
-*/
 
 h1,h2,h3,h4 {
     width: 100%;
-    min-width: 840px;
+    /*min-width: 840px;*/
 }
 
 hr {
     margin-left: 0;
     padding-left: 0;
 	width: 100%;
-	min-width: 840px;
+/* 	min-width: 840px; */
 }
 
 pre {
@@ -105,6 +90,7 @@ pre {
     width: 90%;
     overflow: auto;
 }
+
 
 code {
     background-color: #E8E8E8;
@@ -126,39 +112,11 @@ a:hover {
 }
 
 main {
-
 	width: 95%;
-	min-width: 600px;
+	<!-- min-width: 600px; -->
 	margin-left: 10px;
 	display: block;
 }
-
-/*
-nav {
-	float: right;
-	width: 400px;
-	min-width: 500px;
-
-}
-
-nav a,
-nav a:visited,
-nav a:active {
-}
-
-nav a:hover {
-    color: #696969;
-}
-
-nav li {
-    margin-left: -25px; 
-    list-style: none;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 1.5rem;
-
-}
-*/
-
 
 footer {
 	clear: both;
@@ -201,7 +159,7 @@ article header span {
 }
 
 article header h2 {
-    margin-bottom: 3px;
+    margin-bottom: 5px;
 }
 
 section address {
@@ -240,4 +198,36 @@ section address {
     padding-top: 5.5px;
     text-align: center;
     width: 35px;
+}
+
+/*--- iPhone only CSS tweaks here, must be last in file to override ---*/
+@media screen and (max-device-width: 480px){
+body{
+        -webkit-text-size-adjust:none;
+        font-family:Helvetica, Arial, Verdana, sans-serif;
+        padding:5px;
+    }
+#header h1{
+   margin-left: 15px;
+}
+#header ul{
+   float: left;
+   margin-right: 0px;
+   margin-left: -40px;
+	display: block;
+}
+article {
+	margin: 0px;
+}
+main {
+        width: 95%;
+        min-width: 480px;
+	margin-left: 0px;
+}
+article header span {
+	margin-left: 0px;
+}
+article .entry {
+	margin-left: 0px;
+}
 }
